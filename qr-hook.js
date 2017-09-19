@@ -12,7 +12,7 @@ module.exports = (context, callback) => {
   if (data.head_commit && data.head_commit.url) {
     qrDataUrl(data.head_commit.url)
       .then((url) => commitToDb(url, data))
-      .then((message) => callback(null, { message }))
+      .then((message) => callback(null, message }))
       .catch((error) => callback(null, { error }));
   } else if (data.hook) {
     callback(null, { pong: `Looks like you want me to say "pong"` });
@@ -27,7 +27,7 @@ const commitToDb = (qrCode, data) => {
   const values = getValues(qrCode, data);
   const sql = 'INSERT INTO commits(qr_code, commit_url, owner_name, owner_avatar_url, owner_url, repo_url, pushed_at) VALUES(?, ?, ?, ? , ?, ?, ?)';
 
-  return dbConnection.query(sql, values)
+  return dbConnection.queryAsync(sql, values)
     .then(() => {
       console.info('Insert complete');
       return 'Success!';
