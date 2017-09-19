@@ -11,5 +11,4 @@ const urls = {
 };
 
 module.exports = (context, callback) => {
-
 };
