@@ -1,0 +1,17 @@
+body {
+    font: 14px Verdana, Arial, sans-serif;
+}
+
+a {
+    color: red;
+}
+
+.commit {
+    display: flex;
+}
+table {
+    margin-top: 15px;
+}
+tr th {
+    text-align: left;
+}

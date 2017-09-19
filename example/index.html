@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>QR Commits - A QR Code for GitHub Pushes</title>
+        <link href="style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <p>
+            This is just a demo and requires a browser that uses the
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API#Browser_compatibility">Fetch API</a>!
+        </p>
+
+        <div id="content">
+
+        </div>
+
+        <script src="commits.js"></script>
+        <script>
+            commits.get('content');
+        </script>
+    </body>
+</html>

@@ -6,7 +6,7 @@ import { toDataURL as qrDataUrl } from 'qrcode';
 module.exports = (context, callback) => {
   const { data } = context;
 
-  qrDataUrl(data.compare, (error, url) => {
+  qrDataUrl(data.head_commit.url, (error, url) => {
     if (!error) {
       commitToDb(url, data, (message) => {
         callback(null, message);
