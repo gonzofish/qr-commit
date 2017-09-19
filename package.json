@@ -1,0 +1,25 @@
+{
+  "name": "qr-commit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gonzofish/qr-commit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gonzofish/qr-commit/issues"
+  },
+  "homepage": "https://github.com/gonzofish/qr-commit#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "ftp": "^0.3.10",
+    "qrcode": "^0.9.0"
+  }
+}
