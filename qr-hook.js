@@ -12,7 +12,7 @@ module.exports = (context, callback) => {
   if (data.head_commit && data.head_commit.url) {
     qrDataUrl(data.head_commit.url)
       .then((url) => commitToDb(url, data))
-      .then((message) => callback(null, message }))
+      .then((message) => callback(null, { message }))
       .catch((error) => callback(null, { error }));
   } else if (data.hook) {
     callback(null, { pong: `Looks like you want me to say "pong"` });
