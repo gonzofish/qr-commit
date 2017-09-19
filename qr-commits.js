@@ -36,7 +36,7 @@ const getSingleCommit = (db, commit) =>
         .then((commit) => ({ commit }));
 
 const getRepoCommits = (db, repoUrl) =>
-    db.queryAsync('SELECT * FROM commits WHERE repo_url = ?', [repoUrl])
+    db.queryAsync('SELECT * FROM commits WHERE repo_url = ? ORDER BY pushed_at DESC', [repoUrl])
         .then((commits) => ({ commits }));
 
 const getAllCommits = (db) =>
