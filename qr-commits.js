@@ -8,7 +8,7 @@ module.exports = (context, request, response) => {
         case 'GET':
             return handleGet(context, response);
         default:
-            return sendJson(response, 400, { error: 'Method not implemented' });
+            return sendJson(response, 501, { error: 'Method not implemented' });
     }
 };
 
