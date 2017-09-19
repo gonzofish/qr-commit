@@ -15,7 +15,7 @@
         commit.classList.add('commit');
         details.appendChild(createDetailRow('Repo Owner', document.createTextNode(data.owner_name)));
         details.appendChild(createDetailRow('Repo', createLink(data.repo_url)));
-        details.appendChild(createDetailRow('Pushed At', document.createTextNode(new Date(data.pushed_at * 1000))));
+        details.appendChild(createDetailRow('Pushed At', formatDate(data.pushed_at * 1000)));
 
         img.setAttribute('src', data.qr_code);
 
@@ -50,6 +50,16 @@
 
         return text;
     };
+
+    const formatDate = (value) => {
+        const date = new Date(value);
+        const dateParts = [date.getFullYear(), padNumber(date.getMonth() + 1), padNumber(date.getDate())];
+        const timeParts = [padNumber(date.getHours()), padNumber(date.getMinutes()), padNumber(date.getSeconds())];
+
+        return document.createTextNode(dateParts.join('-') + ' ' + timeParts.join(':'));
+    };
+
+    const padNumber = (value) => ('0' + value).slice(-2);
 
     window.commits = Object.freeze({
         get: getCommits
