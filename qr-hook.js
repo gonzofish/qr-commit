@@ -1,43 +1,36 @@
 'use latest';
 
+import * as bluebird from 'bluebird';
 import * as mysql from 'mysql';
-import { toDataURL as qrDataUrl } from 'qrcode';
+import { toDataURL as qrDataUrlRaw } from 'qrcode';
+
+const qrDataUrl = bluebird.promisify(qrDataUrlRaw);
 
 module.exports = (context, callback) => {
   const { data } = context;
 
-  qrDataUrl(data.head_commit.url, (error, url) => {
-    if (!error) {
-      commitToDb(url, data, (message) => {
-        callback(null, message);
-      });
-    } else {
-      callback(null, `Error: ${ error }`);
-    }
-  });
+  qrDataUrl(data.head_commit.url)
+    .then((url) => commitToDb(url, data))
+    .then((message) => callback(null, message))
+    .catch((error) => callback(null, error));
 };
 
-const commitToDb = (qrCode, data, callback) => {
+const commitToDb = (qrCode, data) => {
   const dbSetup = getDbSetup(data);
-  const dbConnection = mysql.createConnection(dbSetup);
+  const dbConnection = bluebird.promisifyAll(mysql.createConnection(dbSetup));
   const values = getValues(qrCode, data);
   const sql = 'INSERT INTO commits(qr_code, commit_url, owner_name, owner_avatar_url, owner_url, repo_url, pushed_at) VALUES(?, ?, ?, ? , ?, ?, ?)';
 
-  console.log('Inserting QR commit');
-  dbConnection.query(sql, values, (error) => {
-    let message = '';
-
-    if (error) {
-      message = `Error: ${ error }`
+  return dbConnection.query(sql, values)
+    .then(() => {
+      console.info('Insert complete');
+      return 'Success!';
+    })
+    .catch((error) => {
       console.error(error);
-    } else {
-      message = 'Success!';
-      console.log(message);
-    }
-
-    callback(message);
-    dbConnection.end();
-  });
+      return `Error: ${ error }`
+    })
+    .finally(() => dbConnection.end());
 };
 
 const getDbSetup = (data) => {
